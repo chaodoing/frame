@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<station>
+		<host>0.0.0.0</host>
+		<port>8888</port>
+		<compression>true</compression>
+	</station>
+	<mysql>
+		<host>127.0.0.1</host>
+		<port>3306</port>
+		<dbName>platform</dbName>
+		<username>root</username>
+		<password>123.com</password>
+		<charset>utf8mb4</charset>
+		<logLevel>4</logLevel>
+		<logFile>gorm-%Y-%m-%d.log</logFile>
+	</mysql>
+	<redis>
+		<host>127.0.0.1</host>
+		<port>6379</port>
+		<dbIndex>1</dbIndex>
+		<auth>123.com</auth>
+		<ttl>648000</ttl>
+	</redis>
+	<upload>
+		<maximum>20</maximum>
+		<url>/upload</url>
+		<path>${DIR}/upload</path>
+	</upload>
+	<log>
+		<stdout>true</stdout>
+		<write>false</write>
+		<path>${DIR}/logs</path>
+	</log>
+</root>
