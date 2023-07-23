@@ -1,7 +1,7 @@
 package main
 
 import (
-	`log`
+	`fmt`
 	`os`
 	
 	`github.com/chaodoing/frame/command`
@@ -30,9 +30,10 @@ func main() {
 	app.Commands = []cli.Command{
 		command.Systemd,
 		command.Env,
+		command.Config,
 	}
 	var err = app.Run(os.Args)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println(err)
 	}
 }

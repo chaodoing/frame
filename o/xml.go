@@ -3,6 +3,8 @@ package o
 import (
 	`encoding/xml`
 	`os`
+	
+	`github.com/gookit/goutil/fsutil`
 )
 
 // ReadXML 读取XML文件
@@ -27,7 +29,8 @@ func SaveXML(data interface{}, file string) error {
 	}
 	headerBytes := []byte(xml.Header)
 	xmlData := append(headerBytes, xmlByte...)
-	if err := os.WriteFile(os.ExpandEnv(file), xmlData, 0666); err != nil {
+	_, err = fsutil.PutContents(os.ExpandEnv(file), string(xmlData))
+	if err != nil {
 		return err
 	}
 	return nil
