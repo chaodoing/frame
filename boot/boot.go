@@ -35,6 +35,14 @@ func New(file string, isJson bool) (boot Boot, err error) {
 	}
 	env = env.parse()
 	var container = Container{env: env}
+	container.db, err = container.MySQL()
+	if err != nil {
+		panic(err)
+	}
+	container.rdx, err = container.Redis()
+	if err != nil {
+		panic(err)
+	}
 	hero.Register(container)
 	var app = iris.New()
 	w, err := container.logWrite("iris-%Y-%m-%d.log")

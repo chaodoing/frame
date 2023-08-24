@@ -2,7 +2,7 @@
 <root>
 	<station>
 		<host>0.0.0.0</host>
-		<port>8888</port>
+		<port>8899</port>
 		<compression>true</compression>
 	</station>
 	<mysql>
