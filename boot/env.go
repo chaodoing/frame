@@ -35,7 +35,7 @@ type (
 		Port    uint16 `json:"port" xml:"port" ini:"PORT" comment:"连接端口"`
 		DbIndex int    `json:"dbIndex" xml:"dbIndex" ini:"DBINDEX" comment:"数据库"`
 		Auth    string `json:"auth" xml:"auth" ini:"AUTH" comment:"连接密码"`
-		TTL     uint64 `json:"ttl" xml:"ttl" ini:"TTL" comment:"默认连接时长"`
+		TTL     int64  `json:"ttl" xml:"ttl" ini:"TTL" comment:"默认连接时长"`
 	}
 	// Path 路径
 	Path struct {

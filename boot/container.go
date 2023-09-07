@@ -101,3 +101,16 @@ func (c Container) logWrite(file string) (w io.Writer, err error) {
 	}
 	return w, nil
 }
+
+func (c Container) Attestation() (a Attestation, err error) {
+	var rdx *redis.Client
+	rdx, err = c.Redis()
+	if err != nil {
+		return
+	}
+	var ttl = time.Duration(c.env.Redis.TTL) * time.Second
+	return Attestation{
+		rdx:        rdx,
+		timeToLive: ttl,
+	}, nil
+}
