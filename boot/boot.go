@@ -80,7 +80,7 @@ func (b Boot) Strap() {
 		b.app.Use(iris.Compression)
 	}
 	var env = envutil.Getenv("ENV", "development")
-	b.app.Use(recover.New())
+	b.app.UseRouter(recover.New())
 	b.app.Use(logger.New(logger.Config{
 		Status:     true,
 		IP:         true,
