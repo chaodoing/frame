@@ -44,7 +44,7 @@ func New(file string, isJson bool) (boot Boot, err error) {
 		panic(err)
 	}
 	hero.Register(container)
-	var app = iris.Default()
+	var app = iris.New()
 	w, err := container.logWrite("iris-%Y-%m-%d.log")
 	if err != nil {
 		return
