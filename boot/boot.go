@@ -81,7 +81,18 @@ func (b Boot) Strap() {
 	}
 	var env = envutil.Getenv("ENV", "development")
 	b.app.UseRouter(recover.New())
-	b.app.UseRouter(logger.New())
+	b.app.UseRouter(logger.New(logger.Config{
+		Status:           true,
+		IP:               true,
+		Method:           true,
+		Path:             true,
+		PathAfterHandler: true,
+		Query:            true,
+		TraceRoute:       true,
+		LogFunc:          nil,
+		LogFuncCtx:       nil,
+		Skippers:         nil,
+	}))
 	
 	b.config.PostMaxMemory = b.env.Upload.Maximum
 	b.config.DisableStartupLog = !strings.EqualFold(env, "development")
