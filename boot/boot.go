@@ -3,7 +3,6 @@ package boot
 import (
 	`fmt`
 	`net/http`
-	`strings`
 	`time`
 	
 	`github.com/gookit/goutil/envutil`
@@ -95,7 +94,7 @@ func (b Boot) Strap() {
 	}))
 	
 	b.config.PostMaxMemory = b.env.Upload.Maximum
-	b.config.DisableStartupLog = !strings.EqualFold(env, "development")
+	b.config.DisableStartupLog = true
 	b.config.Other = map[string]interface{}{
 		"routes": b.app.GetRoutes(),
 	}
