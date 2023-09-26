@@ -108,6 +108,7 @@ func (c Container) Attestation(prefix string) (a Attestation, err error) {
 	if err != nil {
 		return
 	}
+	prefix = prefix + ":"
 	var ttl = time.Duration(c.env.Redis.TTL) * time.Second
 	return Attestation{
 		rdx:        rdx,
