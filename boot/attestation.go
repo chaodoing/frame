@@ -20,6 +20,7 @@ type (
 	Attestation struct {
 		rdx        *redis.Client
 		timeToLive time.Duration
+		prefix     string
 	}
 )
 
@@ -67,7 +68,7 @@ func (a Attestation) notRefresh(ctx iris.Context) bool {
 func (a Attestation) GET(ctx iris.Context, data interface{}) (err error) {
 	if token := a.current(ctx); !strings.EqualFold(token, "") {
 		var content string
-		content, err = a.rdx.Get(token).Result()
+		content, err = a.rdx.Get(a.prefix + token).Result()
 		if err != nil {
 			return
 		}
@@ -76,18 +77,18 @@ func (a Attestation) GET(ctx iris.Context, data interface{}) (err error) {
 			return
 		}
 		if a.notRefresh(ctx) {
-			_, err = a.rdx.Set(token, content, a.timeToLive).Result()
+			_, err = a.rdx.Set(a.prefix+token, content, a.timeToLive).Result()
 			if err != nil {
 				return
 			}
 			a.header(ctx, "false")
 		} else {
-			_, err = a.rdx.Del(token).Result()
+			_, err = a.rdx.Del(a.prefix + token).Result()
 			if err != nil {
 				return
 			}
 			token = a.token()
-			_, err = a.rdx.Set(token, content, a.timeToLive).Result()
+			_, err = a.rdx.Set(a.prefix+token, content, a.timeToLive).Result()
 			if err != nil {
 				return
 			}
@@ -107,7 +108,7 @@ func (a Attestation) SET(ctx iris.Context, data interface{}) (err error) {
 	if err != nil {
 		return err
 	}
-	_, err = a.rdx.Set(token, string(bit), a.timeToLive).Result()
+	_, err = a.rdx.Set(a.prefix+token, string(bit), a.timeToLive).Result()
 	if err != nil {
 		return
 	}
@@ -126,7 +127,7 @@ func (a Attestation) ALTER(ctx iris.Context, data interface{}) (err error) {
 		if err != nil {
 			return err
 		}
-		_, err = a.rdx.Set(token, string(bit), a.timeToLive).Result()
+		_, err = a.rdx.Set(a.prefix+token, string(bit), a.timeToLive).Result()
 		if err != nil {
 			return
 		}
@@ -140,7 +141,7 @@ func (a Attestation) ALTER(ctx iris.Context, data interface{}) (err error) {
 // DEL 清理用户信息
 func (a Attestation) DEL(ctx iris.Context) (err error) {
 	if token := a.current(ctx); !strings.EqualFold(token, "") {
-		_, err = a.rdx.Del(token).Result()
+		_, err = a.rdx.Del(a.prefix + token).Result()
 		if err != nil {
 			return
 		}

@@ -102,15 +102,22 @@ func (c Container) logWrite(file string) (w io.Writer, err error) {
 	return w, nil
 }
 
-func (c Container) Attestation() (a Attestation, err error) {
-	var rdx *redis.Client
+func (c Container) Attestation(prefixes ...string) (a Attestation, err error) {
+	var (
+		rdx    *redis.Client
+		prefix string
+	)
 	rdx, err = c.Redis()
 	if err != nil {
 		return
+	}
+	if len(prefixes) > 0 {
+		prefix = prefixes[0] + ":"
 	}
 	var ttl = time.Duration(c.env.Redis.TTL) * time.Second
 	return Attestation{
 		rdx:        rdx,
 		timeToLive: ttl,
+		prefix:     prefix,
 	}, nil
 }
