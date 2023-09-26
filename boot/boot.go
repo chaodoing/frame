@@ -85,7 +85,7 @@ func (b Boot) Strap() {
 		Path:             true,
 		PathAfterHandler: true,
 		Query:            true,
-		TraceRoute:       true,
+		TraceRoute:       false,
 		LogFunc:          nil,
 		LogFuncCtx:       nil,
 		Skippers:         nil,
