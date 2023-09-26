@@ -5,7 +5,6 @@ import (
 	`net/http`
 	`time`
 	
-	`github.com/gookit/goutil/envutil`
 	`github.com/kataras/iris/v12`
 	`github.com/kataras/iris/v12/hero`
 	`github.com/kataras/iris/v12/middleware/logger`
@@ -78,7 +77,6 @@ func (b Boot) Strap() {
 	if b.env.Station.Compression {
 		b.app.Use(iris.Compression)
 	}
-	var env = envutil.Getenv("ENV", "development")
 	b.app.UseRouter(recover.New())
 	b.app.UseRouter(logger.New(logger.Config{
 		Status:           true,
