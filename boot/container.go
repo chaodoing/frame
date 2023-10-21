@@ -23,6 +23,12 @@ type Container struct {
 	db  *gorm.DB
 }
 
+// InitContainer 初始化容器
+func InitContainer(env Env) Container {
+	return Container{env: env}
+}
+
+// MySQL 连接MySQL
 func (c Container) MySQL() (db *gorm.DB, err error) {
 	if c.db != nil {
 		return c.db, nil
@@ -47,6 +53,7 @@ func (c Container) MySQL() (db *gorm.DB, err error) {
 	return c.db, err
 }
 
+// Redis 连接Redis
 func (c Container) Redis() (rdx *redis.Client, err error) {
 	if c.rdx != nil {
 		return c.rdx, nil
@@ -71,6 +78,7 @@ func (c Container) Redis() (rdx *redis.Client, err error) {
 	return c.rdx, nil
 }
 
+// Log 日志文件实例化
 func (c Container) Log(file string) (Log *log.Logger, err error) {
 	var write io.Writer
 	write, err = c.logWrite(file)
@@ -78,6 +86,7 @@ func (c Container) Log(file string) (Log *log.Logger, err error) {
 	return
 }
 
+// logWrite 日志写入实例化
 func (c Container) logWrite(file string) (w io.Writer, err error) {
 	var p *strftime.Strftime
 	p, err = strftime.New(path.Join(c.env.Log.Path, os.ExpandEnv(file)))
@@ -102,6 +111,7 @@ func (c Container) logWrite(file string) (w io.Writer, err error) {
 	return w, nil
 }
 
+// Attestation 用户数据认证
 func (c Container) Attestation(prefix string) (a Attestation, err error) {
 	var rdx *redis.Client
 	rdx, err = c.Redis()
