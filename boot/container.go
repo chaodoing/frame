@@ -24,8 +24,17 @@ type Container struct {
 }
 
 // InitContainer 初始化容器
-func InitContainer(env Env) Container {
-	return Container{env: env}
+func InitContainer(env Env) (container Container, err error) {
+	container = Container{env: env}
+	container.db, err = container.MySQL()
+	if err != nil {
+		return
+	}
+	container.rdx, err = container.Redis()
+	if err != nil {
+		return
+	}
+	return
 }
 
 // MySQL 连接MySQL
